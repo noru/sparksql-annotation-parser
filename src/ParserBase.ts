@@ -1,5 +1,5 @@
 import Tokenizr from 'tokenizr'
-import ASTY from 'asty-astq'
+import ASTY from 'asty-astq/lib/asty-astq.browser.js'
 
 export class ParserBase {
 

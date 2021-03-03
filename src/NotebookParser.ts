@@ -27,7 +27,7 @@ export class Parser extends ParserBase {
       if (block.length === 0) {
         break
       }
-      blocks.push(this.astHelper('Block', block[0]).set({ index: this.statementCount }).add(block))
+      blocks.push(this.astHelper('Block', block[0]).set({ index: this.statementCount, key: 'Block-' + this.statementCount }).add(block))
 
     }
     return blocks
@@ -110,7 +110,7 @@ export class Parser extends ParserBase {
   }
   parseAnnotation = () => {
     let annotation = Lexer.consume('Annotation')
-    return this.astHelper('Annotation', annotation).set({ params: paramParser.input(annotation.value) })
+    return this.astHelper('Annotation', annotation).set({ key: annotation.value, value: annotation.value, params: paramParser.input(annotation.value) })
   }
   parseEmpty = () => {
     return EMPTY
