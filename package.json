@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "browserify src/NotebookParser.ts -s NotebookParser -p [ tsify ] | uglifyjs > build/out.js",
+    "build": "browserify src/NotebookParser.ts -s NotebookParser -p [ tsify --target es5 ] | uglifyjs -c -m > build/out.js",
     "test": "ts-mocha -p ./tsconfig.json test/**/*.test.ts",
     "test:watch": "TS_NODE_TRANSPILE_ONLY=true ts-mocha --paths -p ./tsconfig.json test/**/*.test.ts -w --watch-extensions ts --watch-files ."
   },
