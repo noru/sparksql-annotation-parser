@@ -88,16 +88,21 @@ export class Parser extends ParserBase {
     // todo: optimize it
     let statement = ''
     let first: any = null
+    let annotations: any[] = []
     for (;;) {
-      const char = Lexer.token()
-      first = first || char
-      statement += char.value
-      if (char.value === ';') {
+      const token = Lexer.token()
+      first = first || token
+      if (token.type === 'Annotation') {
+        annotations.push(this.astHelper(token.type, token))
+      } else {
+        statement += token.value
+      }
+      if (token.value === ';') {
         break
       }
     }
     let index = this.statementCount++
-    return this.astHelper('Statement', first).set({ key: 'Statement-' + index, value: statement, index, })
+    return this.astHelper('Statement', first).set({ key: 'Statement-' + index, value: statement, index, }).add(annotations)
   }
   parseSingleLineComment = () => {
     return Lexer.consume('SingleLineComment')
