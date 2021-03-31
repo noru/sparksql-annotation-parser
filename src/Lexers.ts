@@ -19,6 +19,9 @@ Lexer.rule('Global', SingleLineCommentReg, (ctx, match) => {
 Lexer.rule('Global', SpaceLikeRegex, (ctx, match) => {
   ctx.accept('SpaceLike')
 })
+Lexer.rule(/(["'])(?:(?=(\\?))\2.)*?\1/, (ctx, m) => {
+  ctx.accept('String')
+})
 Lexer.rule('Global', /(.|\n)/, (ctx) => {
   ctx.accept('Char')
 })
@@ -68,20 +71,20 @@ ParameterLexer.rule(/@[a-zA-Z_][a-zA-Z0-9_]*/g, (ctx, match) => {
   ctx.accept('AnnotationName', match[0].slice(1))
 })
 ParameterLexer.rule(/[a-zA-Z_][a-zA-Z0-9_]*/, (ctx, m) => {
-  ctx.accept("Id")
+  ctx.accept('Id')
 })
 ParameterLexer.rule(/[+-]?[0-9]+/, (ctx, m) => {
-  ctx.accept("Number", parseInt(m[0]))
+  ctx.accept('Number', parseInt(m[0]))
 })
 ParameterLexer.rule(/"((?:.+)+)"/, (ctx, m) => {
-  ctx.accept("String", m[1].replace(/\\"/g, '"'))
+  ctx.accept('String', m[1].replace(/\\"/g, '"'))
 })
 ParameterLexer.rule(/'((?:.+)+)'/, (ctx, m) => {
-  ctx.accept("String", m[1].replace(/\\'/g, '\''))
+  ctx.accept('String', m[1].replace(/\\'/g, '\''))
 })
 ParameterLexer.rule(/[ \t\r\n]+/, (ctx, m) => {
   ctx.ignore()
 })
 ParameterLexer.rule(/./, (ctx, m) => {
-  ctx.accept("Char")
+  ctx.accept('Char')
 })
