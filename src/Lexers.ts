@@ -76,11 +76,8 @@ ParameterLexer.rule(/[a-zA-Z_][a-zA-Z0-9_]*/, (ctx, m) => {
 ParameterLexer.rule(/[+-]?[0-9]+/, (ctx, m) => {
   ctx.accept('Number', parseInt(m[0]))
 })
-ParameterLexer.rule(/"((?:.+)+)"/, (ctx, m) => {
-  ctx.accept('String', m[1].replace(/\\"/g, '"'))
-})
-ParameterLexer.rule(/'((?:.+)+)'/, (ctx, m) => {
-  ctx.accept('String', m[1].replace(/\\'/g, '\''))
+ParameterLexer.rule(/(["'])(?:(?=(\\?))\2.)*?\1/, (ctx, m) => {
+  ctx.accept('String', m[0].replace(/^["']|["']$/g, ''))
 })
 ParameterLexer.rule(/[ \t\r\n]+/, (ctx, m) => {
   ctx.ignore()
