@@ -19,7 +19,7 @@ Lexer.rule('Global', SingleLineCommentReg, (ctx, match) => {
 Lexer.rule('Global', SpaceLikeRegex, (ctx, match) => {
   ctx.accept('SpaceLike')
 })
-Lexer.rule(/(["'])(?:(?=(\\?))\2.)*?\1/, (ctx, m) => {
+Lexer.rule('Global', /(["'])(?:(?=(\\?))\2.)*?\1/, (ctx, m) => {
   ctx.accept('String')
 })
 Lexer.rule('Global', /(.|\n)/, (ctx) => {

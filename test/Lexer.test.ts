@@ -9,7 +9,7 @@ describe('block lexer', () => {
     123
     */
     -- abc
-    -- cde
+    -- cde '123'
     `
     let result = Lexer.input(sql).state("Global").tokens()
     expect(result.length).eq(8)
