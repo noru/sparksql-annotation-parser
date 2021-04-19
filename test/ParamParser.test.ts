@@ -19,7 +19,6 @@ describe('param parser', () => {
     })
   });
 
-
   it('parses annotation and returns all params', function() {
     let text = '@Annotation(id = 1, title="123", description=\'abc\', other="test")'
     let result = parser.input(text);
@@ -30,7 +29,6 @@ describe('param parser', () => {
       description: 'abc',
       other: 'test'
     })
-
   });
 
 })

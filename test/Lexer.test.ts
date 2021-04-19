@@ -58,6 +58,25 @@ describe('block lexer', () => {
     expect(annotations[2].text).eq('@Annotation3')
     expect(annotations[3].text).eq('@Annotation4()')
   });
+
+
+  it('ignore illegal annotations', function() {
+    let sql = `
+    /*
+    @123(id=1)
+    @(id=1)
+    @ ()
+    @_ ()
+    @- ()
+    @? ()
+    */
+    `
+    let result = Lexer.input(sql).state("Global").tokens();
+    expect(result.length).eq(4) // include EOF
+    let annotations = result.filter(i => i.type === 'Annotation')
+    console.error(annotations);
+    expect(annotations.length).eq(0)
+  })
 })
 
 describe('param lexer', () => {
@@ -75,6 +94,6 @@ describe('param lexer', () => {
     expect(id[1].value).eq('title')
     expect(id[2].value).eq('description')
   })
-
   // todo, test case for illegal syntax
+
 })

@@ -4,7 +4,7 @@ const BlockCommentReg = /\/\*(\*(?!\/)|[^*])*\*\//gm
 const SingleLineCommentReg = /--[^\n\r]+?(?:\*\)|[\n\r])/gm
 const EmptyLineRegex = /^[ \t\r\n]+\n/
 const SpaceLikeRegex = /[ \r\n\t]+/gm;
-const AnnotationReg = /@([a-zA-Z0-9_\-]*)(\(.*\))?/
+const AnnotationReg = /@([a-zA-Z]{1,})([a-zA-Z0-9_\-]*)(\(.*\))?/
 
 export const Lexer = new Tokenizr()
 
@@ -67,7 +67,7 @@ Lexer.rule('SingleLineComment', /(.)/, (ctx) => {
 
 export const ParameterLexer = new Tokenizr()
 
-ParameterLexer.rule(/@[a-zA-Z_][a-zA-Z0-9_]*/g, (ctx, match) => {
+ParameterLexer.rule(/@[a-zA-Z].[a-zA-Z0-9_]*/g, (ctx, match) => {
   ctx.accept('AnnotationName', match[0].slice(1))
 })
 ParameterLexer.rule(/[a-zA-Z_][a-zA-Z0-9_]*/, (ctx, m) => {
