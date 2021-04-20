@@ -16,7 +16,11 @@ export class Parser extends ParserBase {
     Lexer.state('Global')
     const blocks = this.parseBlocks()
     Lexer.pop()
-    Lexer.consume('EOF')
+    try {
+      Lexer.consume('EOF')
+    } catch (e) {
+      // finish parsing
+    }
     return this.astHelper('Blocks', blocks).add(blocks)
   }
 
@@ -99,6 +103,13 @@ export class Parser extends ParserBase {
       }
       if (token.value === ';') {
         break
+      }
+      if (token.type === 'EOF') {
+        if (statement === '') {
+          throw Error() // 'EOF' is not considered a statement
+        } else {
+          break
+        }
       }
     }
     let index = this.statementCount++

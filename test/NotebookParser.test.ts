@@ -34,7 +34,7 @@ describe('parser', () => {
     item_id;
 
     select * from test;
-    `
+    `.trim()
     let result = parser.input(sql);
     expect(result.C.length, 'blocks').eq(3)
     expect(result.C[0].C.length).eq(2)
@@ -72,7 +72,7 @@ describe('parser', () => {
     -- test
     -- test
     insert overwrite table working.lstg_item_tax_v;
-    `
+    `.trim()
     let result = parser.input(sql);
     expect(result.C.length, 'blocks').eq(1)
     expect(result.C[0].C.length).eq(2)
@@ -141,6 +141,19 @@ describe('parser', () => {
     expect(annotations[1].A.params).eqls( { AnnotationName: 'Unknown' })
     expect(annotations[2].A.params).eqls( { AnnotationName: 'Unknown' })
 
+  });
+
+  it('parses statement with last ; missing', function() {
+    let sql = `
+    select 1 + 1;
+    select 2 + 2
+    `.trim()
+    let result = parser.input(sql)
+    expect(result.C.length, 'blocks').eq(2)
+    expect(result.C[0].C[0].T).eq('Statement')
+    expect(result.C[0].C[0].A.value).eq('select 1 + 1;')
+    expect(result.C[1].C[0].T).eq('Statement')
+    expect(result.C[1].C[0].A.value).eq('select 2 + 2')
   });
 
 })
