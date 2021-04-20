@@ -156,4 +156,32 @@ describe('parser', () => {
     expect(result.C[1].C[0].A.value).eq('select 2 + 2')
   });
 
+  it('parses statement with annotation inside', function() {
+    let sql = `
+    /* @Annotation1 */
+    select 1 + 1 where a = '@AnnotationShouldBeIgnored'
+    -- @Annotation2
+    ;
+    -- @Annotation3
+    select 2 + 2
+    `.trim()
+    let result = parser.input(sql)
+    expect(result.C.length, 'blocks').eq(2)
+
+    expect(result.C[0].C[0].T).eq('Comment')
+    expect(result.C[0].C[0].C[0].T).eq('Annotation')
+    expect(result.C[0].C[0].C[0].A.params.AnnotationName).eq('Annotation1')
+    expect(result.C[0].C[1].T).eq('Statement')
+    expect(result.C[0].C[1].A.value).eq(`select 1 + 1 where a = '@AnnotationShouldBeIgnored'
+    -- @Annotation2
+    ;`)
+    expect(result.C[0].C[1].C.length).eq(1)
+    expect(result.C[0].C[1].C[0].T).eq('Annotation')
+    expect(result.C[0].C[1].C[0].A.params.AnnotationName).eq('Annotation2')
+    expect(result.C[1].C[0].T).eq('Comment')
+    expect(result.C[1].C[0].C[0].T).eq('Annotation')
+    expect(result.C[1].C[0].C[0].A.params.AnnotationName).eq('Annotation3')
+    expect(result.C[1].C[1].A.value).eq('select 2 + 2')
+  });
+
 })

@@ -97,7 +97,7 @@ export class Parser extends ParserBase {
       const token = Lexer.token()
       first = first || token
       if (token.type === 'Annotation') {
-        annotations.push(this.astHelper(token.type, token))
+        annotations.push(this.astHelper(token.type, token).set({ key: token.value, value: token.value, params: paramParser.input(token.value) }))
       } else {
         statement += token.value
       }
