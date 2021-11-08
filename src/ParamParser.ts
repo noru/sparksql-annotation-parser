@@ -1,4 +1,4 @@
-import { Lexer, ParameterLexer } from './Lexers'
+import { ParameterLexer } from './Lexers'
 import { ParserBase } from './ParserBase'
 
 type KV = [string, string]
