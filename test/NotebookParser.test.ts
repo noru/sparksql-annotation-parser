@@ -1,5 +1,7 @@
-import parser from '../src/NotebookParser'
+import { Parser } from '../src/NotebookParser'
 import { expect } from 'chai'
+
+const parser = new Parser
 
 describe('parser', () => {
 
@@ -184,20 +186,17 @@ describe('parser', () => {
     expect(result.C[1].C[1].A.value).eq('select 2 + 2')
   });
 
-  it.only('parses sql with variables', () => {
+  it('parses sql with variables', () => {
     let sql = `
-    -- sql:
+    -- sql: \${test}
     insert into test_db.test_table partition(dt="\${UOW_FROM_DT}")
         select * 
           from source_db.source_table
-          where session_start_dt = '\${UOW_FROM_DT}';
+          where session_start_dt = '\${UOW_FROM_DT}'; --\${test2}
 
     alter table test_db.test_table set location '/hadoop/test/path/test_table/dt=\${UOW_FROM_DT}';
     `.trim()
     let result = parser.input(sql)
-
-    expect(result).eq('')
+    expect(result.C[0].C[1].A.vars).eqls({ UOW_FROM_DT: 2 })
   })
-
-
 })

@@ -1,7 +1,7 @@
 import paramParser from "./ParamParser"
 import { ParserBase } from "./ParserBase"
 import { Lexer } from './Lexers'
-import { getAllStatements } from "./helper"
+import { getVariablesFromString } from "./helper"
 
 const EMPTY = Symbol()
 
@@ -115,7 +115,7 @@ export class Parser extends ParserBase {
       }
     }
     let index = this.statementCount++
-    return this.astHelper('Statement', first).set({ key: 'Statement-' + index, value: statement, index, }).add(annotations)
+    return this.astHelper('Statement', first).set({ key: 'Statement-' + index, value: statement, index, vars: getVariablesFromString(statement) }).add(annotations)
   }
   parseSingleLineComment = () => {
     return Lexer.consume('SingleLineComment')

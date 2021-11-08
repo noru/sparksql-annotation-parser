@@ -1,14 +1,15 @@
 {
   "name": "@drewxiu/sql-annotation-parser",
-  "version": "0.0.1-alpha.2",
+  "version": "0.0.2",
   "description": "",
   "main": "build/esm/index.js",
   "module": "build/esm/index.js",
   "private": false,
+  "type": "module",
   "scripts": {
     "build": "tsc",
-    "test": "ts-mocha -p ./tsconfig.json test/**/*.test.ts",
-    "test:watch": "TS_NODE_TRANSPILE_ONLY=true ts-mocha --paths -p ./tsconfig.json test/**/*.test.ts -w --watch-extensions ts --watch-files ."
+    "test": "ts-mocha -p ./tsconfig.test.json test/**/*.test.ts",
+    "test:watch": "TS_NODE_TRANSPILE_ONLY=true ts-mocha --paths -p ./tsconfig.test.json test/**/*.test.ts -w --watch-extensions ts --watch-files ."
   },
   "author": "drew.xiu",
   "license": "MIT",
