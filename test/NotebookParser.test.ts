@@ -184,4 +184,20 @@ describe('parser', () => {
     expect(result.C[1].C[1].A.value).eq('select 2 + 2')
   });
 
+  it.only('parses sql with variables', () => {
+    let sql = `
+    -- sql:
+    insert into test_db.test_table partition(dt="\${UOW_FROM_DT}")
+        select * 
+          from source_db.source_table
+          where session_start_dt = '\${UOW_FROM_DT}';
+
+    alter table test_db.test_table set location '/hadoop/test/path/test_table/dt=\${UOW_FROM_DT}';
+    `.trim()
+    let result = parser.input(sql)
+
+    expect(result).eq('')
+  })
+
+
 })

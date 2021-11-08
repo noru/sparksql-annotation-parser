@@ -1,15 +1,17 @@
 {
-  "name": "sql-annotation-parser",
-  "version": "1.0.0",
+  "name": "@drewxiu/sql-annotation-parser",
+  "version": "0.0.1-alpha.2",
   "description": "",
-  "main": "build/dist.js",
+  "main": "build/esm/index.js",
+  "module": "build/esm/index.js",
+  "private": false,
   "scripts": {
-    "build": "browserify src/NotebookParser.ts -s NotebookParser -p [ tsify --target es5 ] | uglifyjs -c -m > build/dist.js",
+    "build": "tsc",
     "test": "ts-mocha -p ./tsconfig.json test/**/*.test.ts",
     "test:watch": "TS_NODE_TRANSPILE_ONLY=true ts-mocha --paths -p ./tsconfig.json test/**/*.test.ts -w --watch-extensions ts --watch-files ."
   },
-  "author": "",
-  "license": "ISC",
+  "author": "drew.xiu",
+  "license": "MIT",
   "dependencies": {
     "asty-astq": "^1.13.4",
     "tokenizr": "^1.6.4"
@@ -22,9 +24,12 @@
     "mocha": "^8.3.0",
     "ts-mocha": "^8.0.0",
     "ts-node": "^9.1.1",
-    "tsify": "^5.0.2",
+    "tsify": "^5.0.4",
     "tslib": "^2.1.0",
     "typescript": "^4.2.2",
     "uglify-js": "^3.13.2"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

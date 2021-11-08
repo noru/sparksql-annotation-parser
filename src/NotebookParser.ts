@@ -1,6 +1,8 @@
 import paramParser from "./ParamParser"
 import { ParserBase } from "./ParserBase"
 import { Lexer } from './Lexers'
+import { getAllStatements } from "./helper"
+
 const EMPTY = Symbol()
 
 export class Parser extends ParserBase {
@@ -135,10 +137,9 @@ export class Parser extends ParserBase {
     let ast
     try {
       ast = this.parseAll(raw)
-    } catch (ex) {
-      console.error(ex.toString())
+    } catch (e) {
+      console.error(e)
     }
     return ast
   }
 }
-export default new Parser()

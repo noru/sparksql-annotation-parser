@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "target": "es6",
-    "module": "CommonJS",
+    "module": "es6",
     "lib": ["es6", "es2015", "es2016", "es2017", "dom", "dom.iterable", "scripthost"],
     "jsx": "preserve",
     "importHelpers": true,
@@ -10,7 +10,10 @@
     "moduleResolution": "node",
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
-    "baseUrl": "."
+    "baseUrl": ".",
+    "skipLibCheck": true,
+    "skipDefaultLibCheck": true,
+    "outDir": "build/esm"
   },
-  "exclude": ["node_modules", "build", "test"]
+  "exclude": ["node_modules", "build", "test", "demo"]
 }
