@@ -42,8 +42,7 @@ describe('parser', () => {
     expect(result.C[0].C.length).eq(2)
     expect(result.C[0].C[0].T).eq('Comment')
     expect(result.C[0].C[1].T).eq('Statement')
-    expect(result.C[0].C[1].A.value).eq(`
-    insert overwrite table working.lstg_item_tax_v 
+    expect(result.C[0].C[1].A.value).eq(`insert overwrite table working.lstg_item_tax_v 
     select/*test*/ 
         adpof.item_id as item_id--abc --@Unknown3()
       ,site.site_cntry_id as jrsdctn_cntry_id 
@@ -54,7 +53,8 @@ describe('parser', () => {
     on site.site_id=adpof.item_site_id 
     where (cast(case  when adpof.flags4 < 0 then adpof.flags4 + 2147483648 else adpof.flags4 end  / 32 as int ) % 2)=0
     and (adpof.hot_process_flag in('I','U','S') or adpof.cold_process_flag in ('U','S')) ;
-    `.trim())
+
+    `)
     
 
     expect(result.C[1].C.length).eq(2)
@@ -153,7 +153,7 @@ describe('parser', () => {
     let result = parser.input(sql)
     expect(result.C.length, 'blocks').eq(2)
     expect(result.C[0].C[0].T).eq('Statement')
-    expect(result.C[0].C[0].A.value).eq('select 1 + 1;')
+    expect(result.C[0].C[0].A.value).eq('select 1 + 1;\n    ')
     expect(result.C[1].C[0].T).eq('Statement')
     expect(result.C[1].C[0].A.value).eq('select 2 + 2')
   });
@@ -176,7 +176,7 @@ describe('parser', () => {
     expect(result.C[0].C[1].T).eq('Statement')
     expect(result.C[0].C[1].A.value).eq(`select 1 + 1 where a = '@AnnotationShouldBeIgnored'
     -- @Annotation2
-    ;`)
+    ;\n    `)
     expect(result.C[0].C[1].C.length).eq(1)
     expect(result.C[0].C[1].C[0].T).eq('Annotation')
     expect(result.C[0].C[1].C[0].A.params.AnnotationName).eq('Annotation2')

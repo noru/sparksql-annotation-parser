@@ -113,7 +113,7 @@ export class Parser extends ParserBase {
             statement += Lexer.token().value
             continue
           }
-          if (token.type === 'SingleLineComment' || token.type === 'BlockComment') {
+          else if (token.type === 'SingleLineComment' || token.type === 'BlockComment') {
             let temp = token.value
             let i = 1
             let peekToken
@@ -132,6 +132,8 @@ export class Parser extends ParserBase {
             } else {
               break
             }
+          } else {
+            break
           }
         }
         break
