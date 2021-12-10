@@ -104,6 +104,36 @@ export class Parser extends ParserBase {
         statement += token.value
       }
       if (token.value === ';') {
+        for (var i = 0;;i++) {
+          let token = Lexer.peek()
+          if (token.type === 'EOF') {
+            break
+          }
+          if (token.value === ';' || token.type === 'SpaceLike') {
+            statement += Lexer.token().value
+            continue
+          }
+          if (token.type === 'SingleLineComment' || token.type === 'BlockComment') {
+            let temp = token.value
+            let i = 1
+            let peekToken
+            while ((peekToken = Lexer.peek(i++)).value !== ';') {
+              if (peekToken.type !== 'SpaceLike' && peekToken.type !== 'BlockComment' && peekToken.type !== 'SingleLineComment') {
+                i = 1
+                temp = ''
+                break
+              }
+              temp += peekToken.value
+            }
+            if (i > 1) {
+              Lexer.skip(i - 1)
+              statement += temp
+              continue
+            } else {
+              break
+            }
+          }
+        }
         break
       }
       if (token.type === 'EOF') {

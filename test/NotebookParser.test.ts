@@ -199,4 +199,51 @@ describe('parser', () => {
     let result = parser.input(sql)
     expect(result.C[0].C[1].A.vars).eqls({ UOW_FROM_DT: 2 })
   })
+
+  it('combines statements with multiple ; in the ends', function() {
+    let sql = `
+    select 1;;;;
+    `.trim()
+    let result = parser.input(sql)
+    expect(result.C.length, 'blocks').eq(1)
+    expect(result.C[0].C[0].T).eq('Statement')
+    expect(result.C[0].C[0].A.value).eq('select 1;;;;')
+
+    sql = `
+      select 1;;;
+      ;
+    `.trim()
+    result = parser.input(sql)
+    expect(result.C.length, 'blocks').eq(1)
+    expect(result.C[0].C[0].T).eq('Statement')
+    expect(result.C[0].C[0].A.value).eq('select 1;;;\n      ;')
+
+    sql = `
+      select 1;
+      --comment
+      ;
+    `.trim()
+    result = parser.input(sql)
+    expect(result.C.length, 'blocks').eq(1)
+    expect(result.C[0].C[0].T).eq('Statement')
+    expect(result.C[0].C[0].A.value).eq('select 1;\n      --comment\n      ;')
+
+    sql = `
+      select 1;; -- comment
+      ;
+      /* block comment */
+      ; -- tail comment
+      /* @Annotation(a=1) */
+      select 2;
+    `.trim()
+    result = parser.input(sql)
+    expect(result.C.length, 'blocks').eq(2)
+    expect(result.C[0].C[0].T).eq('Statement')
+    expect(result.C[0].C[0].A.value).eq('select 1;; -- comment\n      ;\n      /* block comment */\n      ; ')
+    expect(result.C[1].C[0].T).eq('Comment')
+    expect(result.C[1].C[0].A.value).eq('-- tail comment\n      /* @Annotation(a=1) */\n      ')
+    expect(result.C[1].C[1].T).eq('Statement')
+    expect(result.C[1].C[1].A.value).eq('select 2;')
+
+  });
 })
