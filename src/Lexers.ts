@@ -1,7 +1,7 @@
 import Tokenizr from 'tokenizr'
 
 const BlockCommentReg = /\/\*(\*(?!\/)|[^*])*\*\//gm
-const SingleLineCommentReg = /--[^\n\r]+?(?:\*\)|[\n\r])/gm
+const SingleLineCommentReg = /--[^\n\r]+?(?:[\n\r])/gm
 const EmptyLineRegex = /^[ \t\r\n]+\n/
 const SpaceLikeRegex = /[ \r\n\t]+/gm;
 const AnnotationReg = /@([a-zA-Z]{1,})([a-zA-Z0-9_\-]*)(\(.*\))?/

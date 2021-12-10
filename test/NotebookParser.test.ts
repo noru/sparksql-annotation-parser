@@ -189,7 +189,7 @@ describe('parser', () => {
   it('parses sql with variables', () => {
     let sql = `
     -- sql: \${test}
-    insert into test_db.test_table partition(dt="\${UOW_FROM_DT}")
+    insert into test_db.test_table partition(dt=\${UOW_FROM_DT})
         select * 
           from source_db.source_table
           where session_start_dt = '\${UOW_FROM_DT}'; --\${test2}

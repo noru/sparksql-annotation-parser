@@ -74,7 +74,6 @@ describe('block lexer', () => {
     let result = Lexer.input(sql).state("Global").tokens();
     expect(result.length).eq(4) // include EOF
     let annotations = result.filter(i => i.type === 'Annotation')
-    console.error(annotations);
     expect(annotations.length).eq(0)
   })
 })
