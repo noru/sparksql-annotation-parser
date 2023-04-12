@@ -3,6 +3,19 @@ import ASTq from 'astq'
 
 const ASTQ = new ASTq()
 
+export function getBlockByIndex (idx, ast: ASTy): ASTy {
+  const query = `// Block [ @index == ${idx} ]`
+  return ASTQ.query(ast, query)[0]
+}
+
+export function getBlockText(block) {
+  if (!block) {
+    return null
+  }
+  return block.C.map(i => i.A.value).join('')
+}
+
+
 export function getStatementByIndex (idx, ast: ASTy): ASTy {
   const query = `// Statement [ @index == ${idx} ]`
   return ASTQ.query(ast, query)[0]

@@ -33,7 +33,8 @@ export class Parser extends ParserBase {
       if (block.length === 0) {
         break
       }
-      blocks.push(this.astHelper('Block', block[0]).set({ index: this.statementCount, key: 'Block-' + this.statementCount }).add(block))
+      let index = this.statementCount - 1
+      blocks.push(this.astHelper('Block', block[0]).set({ index, key: 'Block-' + index }).add(block))
 
     }
     return blocks
